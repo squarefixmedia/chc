@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Header</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="font-family: 'Figtree', system-ui, sans-serif; color: #16211A; position: relative; z-index: 20">
+<div style="background: #4E2F78; color: #FFFFFF; font-size: 14px">
+<div style="max-width: 1280px; margin: 0 auto; padding: 9px 24px; display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; align-items: center">
+<span>Bethesda Hospital Society · A unit of Emmanuel Hospital Association, New Delhi</span>
+<span style="display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center">
+<span style="opacity: .9">{{opdShort}}</span>
+<a href="tel:07682244311" style="color: #FFFFFF; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #FF8A80; display: inline-block"></span>24-hour Emergency: 07682-244311</a>
+</span>
+</div>
+</div>
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E8E3">
+<div style="max-width: 1280px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #16211A">
+<img src="../assets/322ce64b430f03ef6c8dc13d7d30214c.jpg" alt="Christian Hospital Chhatarpur logo" style="width: 40px; height: 49px; border-radius: 6px; object-fit: cover">
+<span style="display: flex; flex-direction: column; line-height: 1.15"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 19px">Christian Hospital Chhatarpur</span><span style="font-size: 12.5px; color: #4A5550; letter-spacing: .06em; text-transform: uppercase">Whole person care · since 1930</span></span>
+</a>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; align-items: center; gap: 2px 4px; font-size: 15.5px; font-weight: 500">
+<sc-for list="{{links}}" as="l" hint-placeholder-count="5">
+<a href="{{l.href}}" aria-current="{{l.aria}}" style="{{l.style}}">{{l.label}}</a>
+</sc-for>
+<div style="position: relative">
+<button type="button" aria-expanded="{{nursingOpenStr}}" onClick="{{toggleNursing}}" style="{{nursingBtnStyle}}">Nursing <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+<sc-if value="{{nursingOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 100%; left: 0; margin-top: 6px; background: #FFFFFF; border: 1px solid #E3E8E3; border-radius: 14px; box-shadow: 0 12px 30px rgba(22,33,26,.12); padding: 8px; min-width: 250px; display: flex; flex-direction: column">
+<a href="NursingServices.dc.html" style="padding: 12px 14px; border-radius: 10px; text-decoration: none; color: #16211A; display: flex; flex-direction: column; gap: 2px"><b style="font-weight: 600">Nursing Services</b><span style="font-size: 13.5px; color: #4A5550">75 nurses across every ward</span></a>
+<a href="SchoolOfNursing.dc.html" style="padding: 12px 14px; border-radius: 10px; text-decoration: none; color: #16211A; display: flex; flex-direction: column; gap: 2px"><b style="font-weight: 600">School of Nursing</b><span style="font-size: 13.5px; color: #4A5550">GNM programme · admissions</span></a>
+</div>
+</sc-if>
+</div>
+<a href="Community.dc.html" style="{{communityStyle}}">Community Health</a>
+<a href="Research.dc.html" style="{{researchStyle}}">Research</a>
+<a href="Contact.dc.html" style="{{contactStyle}}">Contact</a>
+</nav>
+<a href="Contact.dc.html#visit" style="background: #2E7D32; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 15.5px; padding: 12px 18px; border-radius: 12px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Plan your visit</a>
+</div>
+</header>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"current":{"editor":"enum","options":["home","about","services","nursing","community","research","contact"],"default":"home"},"$preview":{"width":1440,"height":124}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { open: false }; }
+  componentDidMount() { this._t = setInterval(() => this.forceUpdate(), 60000); }
+  componentWillUnmount() { clearInterval(this._t); }
+  opd() {
+    const now = new Date();
+    const ist = new Date(now.getTime() + (330 + now.getTimezoneOffset()) * 60000);
+    const d = ist.getDay();
+    const h = ist.getHours() + ist.getMinutes() / 60;
+    const close = d === 6 ? 11.5 : 14.5;
+    const work = d >= 1 && d <= 6;
+    if (work && h >= 8 && h < close) return 'OPD open now · until ' + (d === 6 ? '11:30 AM' : '2:30 PM');
+    if (work && h < 8) return 'OPD opens today at 8:00 AM';
+    if (d >= 1 && d <= 4) return 'OPD opens tomorrow at 8:00 AM';
+    if (d === 5) return 'OPD opens Saturday at 8:00 AM';
+    return 'OPD opens Monday at 8:00 AM';
+  }
+  renderVals() {
+    const cur = this.props.current ?? 'home';
+    const base = 'text-decoration:none;padding:10px 12px;border-radius:10px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center;';
+    const st = (k) => base + (cur === k ? 'color:#1B5E20;background:#E8F1E9;font-weight:700' : 'color:#16211A');
+    const links = [
+      { href: 'Main.dc.html', label: 'Home', k: 'home' },
+      { href: 'About.dc.html', label: 'About', k: 'about' },
+      { href: 'Services.dc.html', label: 'Clinical Services', k: 'services' }
+    ].map((l) => ({ ...l, style: st(l.k), aria: cur === l.k ? 'page' : 'false' }));
+    const open = this.state.open;
+    return {
+      links,
+      opdShort: this.opd(),
+      nursingOpen: open,
+      nursingOpenStr: open ? 'true' : 'false',
+      toggleNursing: () => this.setState({ open: !open }),
+      nursingBtnStyle: base + 'gap:6px;border:0;cursor:pointer;font:inherit;font-weight:' + (cur === 'nursing' ? '700' : '500') + ';background:' + (cur === 'nursing' || open ? '#E8F1E9' : 'transparent') + ';color:' + (cur === 'nursing' ? '#1B5E20' : '#16211A'),
+      communityStyle: st('community'),
+      researchStyle: st('research'),
+      contactStyle: st('contact')
+    };
+  }
+}
+</script>
+</body>
+</html>
