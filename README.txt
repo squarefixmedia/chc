@@ -1,12 +1,23 @@
-Christian Hospital Chhatarpur - website (static, ready to host)
+CHRISTIAN HOSPITAL CHHATARPUR - WEBSITE FILES
+=============================================
 
-To preview: unzip and double-click index.html. Everything works offline except the Google map.
+PREVIEW ON YOUR COMPUTER
+  1. Unzip this folder.
+  2. Double-click index.html. The site opens in your browser.
 
-Files: 16 .html pages, app.js (shared header/footer + interactions), assets/ (images + font),
-vercel.json (clean URLs on Vercel), .htaccess (optional, for Apache/Hostinger).
+PUT IT ONLINE - VERCEL (free)
+  Easiest: go to vercel.com > Add New > Project > drag this whole folder in > Deploy.
+  (Or, if Node.js is installed: open a terminal in this folder, run
+   npm i -g vercel   then   vercel --prod )
 
-Host on Vercel:     npm i -g vercel  ->  cd into this folder  ->  vercel --prod
-Host on Hostinger:  hPanel > File Manager > public_html > upload this ZIP and extract it there.
-Any other host:     upload the folder contents as they are.
+PUT IT ONLINE - HOSTINGER
+  1. hPanel > Websites > File Manager > open public_html.
+  2. Delete the old files there (keep a backup if needed).
+  3. Upload everything inside this folder (index.html, the other .html files,
+     app.js and the assets folder) straight into public_html.
 
-Content still to be confirmed by the hospital is marked with amber "To be confirmed" labels.
+NOTES
+  - Amber "To be confirmed" labels mark facts the hospital still needs to send.
+  - The Contact form opens the visitor's email app, addressed to
+    chhatarpur@eha-health.org.
+  - The "Scope of services" poster is in assets/scope-of-services.jpg.
